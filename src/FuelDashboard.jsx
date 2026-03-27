@@ -9,22 +9,19 @@ import { LogTab } from "./components/dashboard/LogTab";
 import AddNewStatsForm from "./components/forms/AddNewStatsForm";
 import DailyTripForm from "./components/forms/DailyTripForm";
 import OneTimeTripForm from "./components/forms/OneTimeTripForm";
-import AddVehicleForm from "./components/forms/AddVehicleForm";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { useTheme } from "./context/ThemeContext";
-import Select from "react-select";
 
-import { Home, TrendingUp, IndianRupee, LineChart, ScrollText, MapPin, Fuel, Repeat, Navigation, Plus, ChevronDown, Bike } from "lucide-react";
+import { Home, TrendingUp, IndianRupee, LineChart, ScrollText, MapPin, Fuel, Repeat, Navigation, Plus, ChevronDown, Bike, ArrowLeft } from "lucide-react";
 
-export default function FuelDashboard({ user, setUserData }) {
+export default function FuelDashboard({ user, setUserData, activeVehicleId, onBack }) {
   const { theme } = useTheme();
-  const [activeVehicle, setActiveVehicle] = useState(user?.vehicles?.[0]?.id || null);
+  const [activeVehicle, setActiveVehicle] = useState(activeVehicleId || user?.vehicles?.[0]?.id || null);
   const [tab, setTab] = useState("home");
   const [newEntryOpen, setNewEntry] = useState(false);
   const [dailyTripOpen, setDailyTripOpen] = useState(false);
   const [oneTimeTripOpen, setOneTimeTripOpen] = useState(false);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
-  const [addVehicleOpen, setAddVehicleOpen] = useState(false);
   
   const contentRef = useRef(null);
   const addMenuRef = useRef(null);
@@ -101,8 +98,7 @@ export default function FuelDashboard({ user, setUserData }) {
            </div>
         </div>
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 mb-4">
-           <div className="text-[9px] text-gray-500 tracking-widest uppercase mb-1 font-semibold">Odometer</div>
-           <div className="text-2xl font-extrabold font-outfit text-orange-600">{stats.currentOdo.toLocaleString()} <span className="text-xs text-gray-400 font-sans">km</span></div>
+           <div className="text-[9px] text-gray-500 tracking-widest uppercase mb-1 font-semibold">Vehicle Dashboard</div>
         </div>
         <div className="flex-1 overflow-y-auto px-4 space-y-1">
           {navItems.map(n => {
@@ -127,8 +123,11 @@ export default function FuelDashboard({ user, setUserData }) {
 
       {/* Main Content Column */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 md:px-8 py-3 md:py-5 shrink-0 flex items-center justify-between z-10">
+        <header className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 md:px-8 py-3 md:py-5 shrink-0 flex items-center justify-between z-10 transition-colors">
           <div className="flex items-center gap-3">
+             <button onClick={onBack} className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-gray-100 dark:bg-gray-700/50 text-gray-500 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white transition-colors flex items-center justify-center md:mr-2" title="Back to Garage">
+                 <ArrowLeft size={18} />
+             </button>
              <div className="md:hidden flex items-center gap-3 mr-2">
                <div className="w-9 h-9 rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-600 flex items-center justify-center"><Bike size={20} /></div>
                <div>
@@ -145,38 +144,13 @@ export default function FuelDashboard({ user, setUserData }) {
              </div>
           </div>
           <div className="flex items-center gap-3 md:gap-5">
-             {user?.vehicles && user.vehicles.length > 0 && (
-               <div className="flex items-center gap-2">
-                 <Select 
-                   options={user.vehicles.map(v => ({ value: v.id, label: v.name }))}
-                   value={{ value: activeVehicle, label: user.vehicles.find(v => v.id === activeVehicle)?.name }}
-                   onChange={opt => setActiveVehicle(opt.value)}
-                   className="w-36 md:w-44 text-xs font-bold"
-                   isSearchable={false}
-                   styles={{
-                     control: (base) => ({ ...base, background: theme === 'dark' ? '#111827' : '#ffffff', borderColor: theme === 'dark' ? '#374151' : '#e5e7eb', color: theme === 'dark' ? '#f3f4f6' : '#111827', borderRadius: '0.75rem', padding: '0px', minHeight: '38px', boxShadow: 'none', cursor: 'pointer', outline: 'none', '&:hover': { borderColor: '#ea7c21' } }),
-                     singleValue: (base) => ({ ...base, color: theme === 'dark' ? '#f3f4f6' : '#111827' }),
-                     menu: (base) => ({ ...base, background: theme === 'dark' ? '#1f2937' : '#ffffff', borderRadius: '0.75rem', zIndex: 100, border: `1px solid ${theme==='dark'?'#374151':'#e5e7eb'}`, padding: '4px' }),
-                     option: (base, state) => ({ ...base, backgroundColor: state.isSelected ? '#ea7c21' : state.isFocused ? (theme === 'dark' ? '#374151' : '#f3f4f6') : 'transparent', color: state.isSelected ? '#ffffff' : (theme === 'dark' ? '#f3f4f6' : '#111827'), cursor: 'pointer', borderRadius: '0.5rem', marginBottom: '2px', padding: '8px 12px' }),
-                   }}
-                 />
-                 <button onClick={() => setAddVehicleOpen(true)} className="w-9 h-9 md:w-[38px] md:h-[38px] shrink-0 rounded-xl bg-orange-100 dark:bg-orange-900/40 text-orange-600 flex items-center justify-center hover:bg-orange-200 dark:hover:bg-orange-900/60 transition-colors" title="Add Vehicle">
-                    <Plus size={18} />
-                 </button>
-               </div>
-             )}
              <div className="hidden md:block"><ThemeToggle /></div>
-             <div className="text-right">
-                <div className="text-[9px] text-gray-500 tracking-widest uppercase font-semibold">Odometer</div>
-                <div className="text-lg md:text-xl font-extrabold font-outfit text-orange-600">{stats.currentOdo.toLocaleString()} <span className="text-[10px] text-gray-400 font-sans">km</span></div>
-             </div>
           </div>
         </header>
 
         <main ref={contentRef} className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 bg-gray-50/50 dark:bg-[#121212]">
           
           {/* Modals */}
-          <AddVehicleForm isOpen={addVehicleOpen} onClose={() => setAddVehicleOpen(false)} onSubmit={(newV) => { const updated = { ...user, vehicles: [...user.vehicles, newV] }; localStorage.setItem("fuelpulse_user", JSON.stringify(updated)); setUserData?.(updated); setActiveVehicle(newV.id); }} />
           <AddNewStatsForm isOpen={newEntryOpen} onClose={() => setNewEntry(false)} lastOdometer={stats.RAW_DATA[stats.RAW_DATA.length - 1]?.to} onSubmit={() => {}} />
           <DailyTripForm isOpen={dailyTripOpen} onClose={() => setDailyTripOpen(false)} onSubmit={() => {}} />
           <OneTimeTripForm isOpen={oneTimeTripOpen} onClose={() => setOneTimeTripOpen(false)} onSubmit={() => {}} avgKmPerLitre={parseFloat(stats.overallEff.toFixed(2))} avgPricePerLitre={parseFloat((stats.totalCost / stats.totalFuel).toFixed(2))} />
