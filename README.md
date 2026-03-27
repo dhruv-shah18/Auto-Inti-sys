@@ -1,18 +1,71 @@
-# React + Vite
+# FuelPulse - Vehicle & Fuel Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FuelPulse is a modern, responsive React application designed to help users track their vehicle's fuel efficiency, costs, and upcoming milestones. Built with a sleek UI, it features a comprehensive dashboard with data visualization, an onboarding flow for managing multiple vehicles, and full dark mode support.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Multi-Vehicle Management:** Track metrics for multiple cars or bikes simultaneously. Add new vehicles seamlessly from the dashboard.
+- **Onboarding Flow:** Clean landing page that captures vehicle configurations (2-wheeler/4-wheeler, fuel type, expected mileage) and user preferences.
+- **Comprehensive Dashboard:**
+  - **Home:** At-a-glance summaries, current efficiency, and cost metrics.
+  - **Mileage:** Trend analysis charts showing km/L over time.
+  - **Cost:** Spending breakdowns (Price per Litre, Cost per km, and future graphical projections).
+  - **Forecast:** Predictive modeling for your next refuel date, estimated cost, and upcoming odometer milestones.
+  - **Log:** A detailed tabular and graphical breakdown of all your past refill entries.
+- **Smart Data Entry:** Log full fill-ups, partial top-ups, daily recurring trips, and one-time planned journeys. The system smartly merges partial refills into your next full tank for accurate overall baseline calculations.
+- **True Dark/Light Mode:** Seamlessly switch themes with a persistent UI toggle utilizing Tailwind's native dark variant configuration.
+- **Interactive UI:** Smooth transitions, responsive sidebar/bottom navigation, and subtle audio cues (chimes) when navigating tabs.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- **Frontend Framework:** React 19 + Vite
+- **Styling:** Tailwind CSS v4 (configured with precise layout utilities and theme support)
+- **Icons:** `lucide-react`
+- **Charts:** `recharts` for robust, responsive data visualizations.
+- **Form Controls:** `react-select` for advanced, theme-aware dropdown selections.
 
-Note: This will impact Vite dev & build performances.
+## 📂 Project Structure
 
-## Expanding the ESLint configuration
+```text
+src/
+├── components/
+│   ├── dashboard/       # Dashboard Core Tabs (HomeTab, MileageTab, CostTab, etc.)
+│   ├── forms/           # Modular Forms (AddNewStatsForm, AddVehicleForm, etc.)
+│   └── ThemeToggle.jsx  # Dark/Light Mode Switcher Component
+├── context/
+│   └── ThemeContext.jsx # Global Theme State Provider
+├── hooks/
+│   └── useFuelData.js   # Custom hook centralizing data manipulation and calculations
+├── pages/
+│   └── LandingPage.jsx  # User Onboarding interface
+├── utils/
+│   └── audio.js         # Zero-dependency browser oscillator for UI transition chimes
+├── App.jsx              # Main Application Router & Settings
+├── FuelDashboard.jsx    # Primary Dashboard Assembly
+├── index.css            # Tailwind Directives & Font setups
+└── main.jsx             # React DOM root entry
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 Getting Started
+
+### Prerequisites
+Make sure you have Node.js installed on your local machine.
+
+### Installation
+
+1. Clone the repository and navigate to the project root:
+   ```bash
+   cd auto-ini-sys
+   ```
+2. Install the necessary dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open your browser and visit the local port (usually `http://localhost:5173/` or `http://localhost:5174/`).
+
+## 🔮 Future Architecture (Backend)
+Currently, the application runs entirely on the frontend with data persisting via `localStorage`. For production scaling, a full backend architecture has been planned. Please reference `backend_features.md` in the root directory for a detailed breakdown of the proposed Node.js/Express database schema and API endpoints.
