@@ -55,9 +55,13 @@ This document outlines the required features, API endpoints, and database models
   - Total Distance
   - Total Cost
   - Overall Efficiency
-  - Monthly Spend grouped by month
   - Next Refuel Prediction (Date & Odo)
   - Distance to next milestones
+- `GET /api/stats/analytics` - Returns advanced insights and correlations:
+  - Monthly Spend vs Distance Aggregation
+  - Fuel Price vs Efficiency Scatter Data (Correlation analysis)
+  - Fill Interval vs Efficiency Scatter Data 
+  - Cumulative Trajectory (Running total of cost/distance over time)
 
 ## 3. Recommended Tech Stack
 - **Framework**: Node.js + Express / NestJS OR Python FastAPI

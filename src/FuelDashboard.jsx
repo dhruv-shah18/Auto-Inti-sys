@@ -9,10 +9,11 @@ import { LogTab } from "./components/dashboard/LogTab";
 import AddNewStatsForm from "./components/forms/AddNewStatsForm";
 import DailyTripForm from "./components/forms/DailyTripForm";
 import OneTimeTripForm from "./components/forms/OneTimeTripForm";
+import { AnalyticsTab } from "./components/dashboard/AnalyticsTab";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { useTheme } from "./context/ThemeContext";
 
-import { Home, TrendingUp, IndianRupee, LineChart, ScrollText, MapPin, Fuel, Repeat, Navigation, Plus, ChevronDown, Bike, ArrowLeft } from "lucide-react";
+import { Home, TrendingUp, IndianRupee, LineChart, ScrollText, MapPin, Fuel, Repeat, Navigation, Plus, ChevronDown, Bike, ArrowLeft, BarChart2 } from "lucide-react";
 
 export default function FuelDashboard({ user, setUserData, activeVehicleId, onBack }) {
   const { theme } = useTheme();
@@ -50,6 +51,7 @@ export default function FuelDashboard({ user, setUserData, activeVehicleId, onBa
 
   const navItems = [
     { id: "home", icon: <Home size={20} />, label: "Home", desc: "Overview & key metrics" },
+    { id: "analytics", icon: <BarChart2 size={20} />, label: "Analytics", desc: "Deep dive data insights" },
     { id: "mileage", icon: <TrendingUp size={20} />, label: "Mileage", desc: "Efficiency trends & analysis" },
     { id: "cost", icon: <IndianRupee size={20} />, label: "Cost", desc: "Spending patterns & projections" },
     { id: "forecast", icon: <LineChart size={20} />, label: "Forecast", desc: "Predictions & milestones" },
@@ -156,6 +158,7 @@ export default function FuelDashboard({ user, setUserData, activeVehicleId, onBa
           <OneTimeTripForm isOpen={oneTimeTripOpen} onClose={() => setOneTimeTripOpen(false)} onSubmit={() => {}} avgKmPerLitre={parseFloat(stats.overallEff.toFixed(2))} avgPricePerLitre={parseFloat((stats.totalCost / stats.totalFuel).toFixed(2))} />
 
           {tab === "home" && <HomeTab data={stats.data} stats={stats} />}
+          {tab === "analytics" && <AnalyticsTab data={stats.data} stats={stats} />}
           {tab === "mileage" && <MileageTab data={stats.data} stats={stats} />}
           {tab === "cost" && <CostTab data={stats.data} stats={stats} />}
           {tab === "forecast" && <ForecastTab stats={stats} />}
